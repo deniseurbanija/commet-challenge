@@ -1,10 +1,24 @@
+"use client";
 import { CRMA } from "@/data/CRMA";
 import { CRMB } from "@/data/CRMB";
-import { parseCRMBCSV } from "@/services/parseCSV";
-import { parseJson } from "@/services/parseJson";
+import { Deal } from "@/types/deal";
+import { transformCRMData } from "@/utils/crmTransformer";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const deals = [...parseJson(CRMA), ...parseCRMBCSV(CRMB)];
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [totalCommissions, setTotalCommissions] = useState(0);
+
+  useEffect(() => {
+    const transformedDeals = transformCRMData(CRMA, CRMB);
+    setDeals(transformedDeals);
+
+    const total = transformedDeals.reduce(
+      (sum, deal) => sum + deal.commission,
+      0
+    );
+    setTotalCommissions(total);
+  }, []);
   return (
     <div className="min-h-screen text-black bg-slate-50 p-6 md:p-10">
       <div className="max-w-5xl mx-auto space-y-8">
@@ -23,6 +37,7 @@ export default function Home() {
                   <th className="border px-4 py-2 text-left">Monto</th>
                   <th className="border px-4 py-2 text-left">Vendedor</th>
                   <th className="border px-4 py-2 text-left">Fecha</th>
+                  <th className="border px-4 py-2 text-left">Comisión</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,19 +49,16 @@ export default function Home() {
                     <td className="border px-4 py-2">
                       {new Date(deal.date).toLocaleDateString()}
                     </td>
+                    <td className="border px-4 py-2">${deal.commission}</td>
                   </tr>
                 ))}
               </tbody>
-              {/* <tfoot>
-                <tr className="bg-slate-100 font-semibold">
-                  <td className="border px-4 py-2" colSpan={1}>
-                    Total
-                  </td>
-                  <td className="border px-4 py-2">${totalSales.toFixed(2)}</td>
-                  <td className="border px-4 py-2" colSpan={2}></td>
-                </tr>
-              </tfoot> */}
             </table>
+            <div className="mt-4 text-right mr-1">
+              <h2 className="text-xl font-bold">
+                Total Comisiones: ${totalCommissions.toLocaleString()}
+              </h2>
+            </div>
           </div>
         </div>
       </div>
