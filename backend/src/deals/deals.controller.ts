@@ -5,6 +5,8 @@ import {
   Body,
   UseInterceptors,
   UploadedFile,
+  BadRequestException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DealsService } from './deals.service';
@@ -22,8 +24,16 @@ export class DealsController {
   @Post('import/crm-b')
   @UseInterceptors(FileInterceptor('file'))
   async importCrmBData(@UploadedFile() file: Express.Multer.File) {
-    const csvString = file.buffer.toString('utf-8');
-    return this.dealsService.importDealsFromCrmB(csvString);
+    try {
+      if (!file) {
+        throw new BadRequestException('No file uploaded');
+      }
+      const csvString = file.buffer.toString('utf-8');
+      return this.dealsService.importDealsFromCrmB(csvString);
+    } catch (error) {
+      console.error('Error importing CRM data:', error);
+      throw new InternalServerErrorException('Failed to import CRM data');
+    }
   }
 
   @Get()
