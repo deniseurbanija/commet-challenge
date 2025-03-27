@@ -133,8 +133,6 @@ export class DealsController {
   }
 
   @Delete()
-
-  // En un script de reset o seed
   async resetDatabase() {
     return await this.dealsService.resetDatabase();
   }

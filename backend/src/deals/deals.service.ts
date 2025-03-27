@@ -36,6 +36,6 @@ export class DealsService {
   }
 
   async resetDatabase() {
-    return await this.prisma.$transaction([this.prisma.deal.deleteMany()]);
+    return await this.prisma.deal.deleteMany();
   }
 }

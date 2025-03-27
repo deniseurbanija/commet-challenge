@@ -1,6 +1,6 @@
 import { Deal } from "@/types/deal";
 
-const API_URL = "http://localhost:3001/deals";
+const API_URL = "https://commet-challenge-production.up.railway.app/deals";
 
 export const api = {
   async getDeals(): Promise<Deal[]> {
