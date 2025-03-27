@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Commet Deals Parse",
+  title: "Commet - Deals",
 };
 
 const inter = Inter({ subsets: ["latin"] });

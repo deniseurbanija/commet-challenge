@@ -23,7 +23,7 @@ export default function Home() {
     <div className="min-h-screen text-[#0f172a] bg-gradient-to-t from-gray-300 to-gray-50 p-6 md:p-10">
       <div className="max-w-5xl mx-auto space-y-8">
         <div className="flex flex-col items-center justify-center text-center space-y-2 mt-24">
-          <h1 className="text-3xl font-bold tracking-widest">
+          <h1 className="text-6xl font-medium tracking-widest">
             Commet - Gestión de Deals
           </h1>
         </div>
