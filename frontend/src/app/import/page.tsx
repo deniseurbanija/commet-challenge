@@ -311,10 +311,10 @@ export default function ImportPage() {
                     />
                   </div>
 
-                  <Alert>
+                  {/* <Alert>
                     <Info className="h-4 w-4" />
                     <AlertTitle>Required Fields</AlertTitle>
-                    <AlertDescription className="flex">
+                    <AlertDescription className="md:flex">
                       Each record must have:{" "}
                       <code className="bg-muted px-1 rounded">deal_id</code>,
                       <code className="bg-muted px-1 rounded">total</code> or{" "}
@@ -326,7 +326,7 @@ export default function ImportPage() {
                       </code> or{" "}
                       <code className="bg-muted px-1 rounded">created_on</code>
                     </AlertDescription>
-                  </Alert>
+                  </Alert> */}
                 </CardContent>
                 <CardFooter>
                   <Button
@@ -423,7 +423,7 @@ export default function ImportPage() {
                     </div>
                   </div>
 
-                  <Alert>
+                  {/* <Alert>
                     <Info className="h-4 w-4" />
                     <AlertTitle>CSV Requirements</AlertTitle>
                     <AlertDescription>
@@ -451,7 +451,7 @@ export default function ImportPage() {
                         </li>
                       </ul>
                     </AlertDescription>
-                  </Alert>
+                  </Alert> */}
                 </CardContent>
                 <CardFooter>
                   <Button
