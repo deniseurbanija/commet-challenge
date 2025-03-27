@@ -38,19 +38,17 @@ export default function Home() {
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="flex flex-col items-center justify-center text-center space-y-2 mt-10">
           <h1 className="text-6xl font-medium tracking-widest">
-            Commet - Gestión de Deals
+            Commet - Deals
           </h1>
         </div>
 
         <div className="bg-white p-8 rounded-2xl shadow-sm">
           <div className="flex justify-between items-center mb-5">
-            <h2 className="text-xl font-semibold ">
-              Datos de ventas recientes
-            </h2>
+            <h2 className="text-xl font-semibold ">Recent Sales Data</h2>
             <Link href="/import">
               <Button className="flex items-center gap-2 bg-[#0f172a] text-white">
                 <Upload className="h-4 w-4" />
-                Importar Datos
+                Import Data
               </Button>
             </Link>
           </div>
@@ -60,10 +58,10 @@ export default function Home() {
               <thead>
                 <tr className="bg-gray-100">
                   <th className="px-4 py-2 text-left">ID</th>
-                  <th className="px-4 py-2 text-left">Monto</th>
-                  <th className="px-4 py-2 text-left">Vendedor</th>
-                  <th className="px-4 py-2 text-left">Fecha</th>
-                  <th className="px-4 py-2 text-left">Comisión</th>
+                  <th className="px-4 py-2 text-left">Amount</th>
+                  <th className="px-4 py-2 text-left">Salesperson</th>
+                  <th className="px-4 py-2 text-left">Date</th>
+                  <th className="px-4 py-2 text-left">Commission</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +81,7 @@ export default function Home() {
           </div>
           <div className="mt-4 text-right mr-1">
             <h2 className="text-xl font-bold">
-              Total Comisiones: ${totalCommissions.toLocaleString()}
+              Total Commissions: ${totalCommissions.toLocaleString()}
             </h2>
           </div>
         </div>
