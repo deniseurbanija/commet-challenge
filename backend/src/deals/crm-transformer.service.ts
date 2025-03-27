@@ -9,6 +9,7 @@ interface RawDealCrmA {
   amount?: number;
   salesperson?: string;
   seller?: string;
+  rep_name?: string;
   sold_at?: string;
   created_on?: string;
   deal_date?: string;
@@ -30,7 +31,7 @@ export class CrmTransformerService {
       id: deal.deal_id || deal.opportunity_id || '',
       source: 'CRM_A',
       amount: deal.total || deal.amount || 0,
-      salesperson: deal.salesperson || deal.seller || '',
+      salesperson: deal.salesperson || deal.seller || deal.rep_name || '',
       date: new Date(deal.sold_at || deal.created_on || Date.now()),
       commission: (deal.total || deal.amount || 0) * this.COMMISSION_RATE,
     }));

@@ -1,9 +1,9 @@
 "use client";
-import { CRMA } from "@/data/CRMA";
-import { CRMB } from "@/data/CRMB";
+import { Button } from "@/components/ui/button";
 import { api } from "@/service/api";
 import { Deal } from "@/types/deal";
-import { transformCRMData } from "@/utils/crmTransformer";
+import { Upload } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -37,15 +37,25 @@ export default function Home() {
   return (
     <div className="min-h-screen text-[#0f172a] bg-gradient-to-t from-gray-300 to-gray-50 p-6 md:p-10">
       <div className="max-w-5xl mx-auto space-y-8">
-        <div className="flex flex-col items-center justify-center text-center space-y-2 mt-24">
+        <div className="flex flex-col items-center justify-center text-center space-y-2 mt-10">
           <h1 className="text-6xl font-medium tracking-widest">
             Commet - Gestión de Deals
           </h1>
         </div>
+
         <div className="bg-white p-8 rounded-2xl shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">
-            Datos de ventas recientes
-          </h2>
+          <div className="flex justify-between items-center mb-5">
+            <h2 className="text-xl font-semibold ">
+              Datos de ventas recientes
+            </h2>
+            <Link href="/import">
+              <Button className="flex items-center gap-2 bg-[#0f172a] text-white">
+                <Upload className="h-4 w-4" />
+                Importar Datos
+              </Button>
+            </Link>
+          </div>
+
           <div className="overflow-x-auto rounded-md">
             <table className="w-full border-collapse ">
               <thead>
