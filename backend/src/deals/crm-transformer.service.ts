@@ -127,9 +127,7 @@ export class CrmTransformerService {
    * @param data Raw deal data from CRM A
    * @returns Transformed deals ready for database insertion
    */
-  transformJSON(
-    data: RawDealCrmA[],
-  ): Omit<Deal, 'id' | 'createdAt' | 'updatedAt'>[] {
+  transformJSON(data: RawDealCrmA[]): Omit<Deal, 'createdAt' | 'updatedAt'>[] {
     return data.map((rawDeal) => {
       const id = this.findValue(rawDeal, this.keyMappings.id) || 'Unknown Deal';
       const amount = this.parseAmount(
@@ -143,6 +141,7 @@ export class CrmTransformerService {
       );
 
       return {
+        id,
         amount,
         salesperson,
         date,
@@ -156,9 +155,7 @@ export class CrmTransformerService {
    * @param csvString CSV content containing deal data
    * @returns Transformed deals ready for database insertion
    */
-  transformCSV(
-    csvString: string,
-  ): Omit<Deal, 'id' | 'createdAt' | 'updatedAt'>[] {
+  transformCSV(csvString: string): Omit<Deal, 'createdAt' | 'updatedAt'>[] {
     const records = parse(csvString, { columns: true });
 
     return records.map((record) => {
@@ -180,6 +177,7 @@ export class CrmTransformerService {
       const date = this.parseDate(findColumn(this.keyMappings.date));
 
       return {
+        id,
         amount,
         salesperson,
         date,
