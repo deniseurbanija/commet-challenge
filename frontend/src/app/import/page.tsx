@@ -29,6 +29,7 @@ import Link from "next/link";
 import { CRMA } from "@/data/CRMA";
 import { CRMB } from "@/data/CRMB";
 import { api } from "@/service/api";
+import { validateCrmAData, validateCsvColumns } from "./validate";
 
 export default function ImportPage() {
   const [isLoadingCrmA, setIsLoadingCrmA] = useState(false);
@@ -79,46 +80,6 @@ export default function ImportPage() {
         description: `${file.name} (${Math.round(file.size / 1024)} KB)`,
       });
     }
-  };
-
-  const validateCrmAData = (data: any[]): boolean => {
-    // Basic validation for CRM A data structure
-    for (const item of data) {
-      // Check if each item has either deal_id or id
-      if (!item.deal_id) {
-        toast.error("Invalid data format", {
-          description: "Each item must have a deal_id field",
-        });
-        return false;
-      }
-
-      // Check if each item has either total or amount
-      if (item.total === undefined && item.amount === undefined) {
-        toast.error("Invalid data format", {
-          description: "Each item must have either a total or amount field",
-        });
-        return false;
-      }
-
-      // Check if each item has rep_name
-      if (!item.rep_name) {
-        toast.error("Invalid data format", {
-          description: "Each item must have a rep_name field",
-        });
-        return false;
-      }
-
-      // Check if each item has either sold_at or created_on
-      if (!item.sold_at && !item.created_on) {
-        toast.error("Invalid data format", {
-          description:
-            "Each item must have either a sold_at or created_on field",
-        });
-        return false;
-      }
-    }
-
-    return true;
   };
 
   const importCrmA = async () => {
@@ -203,14 +164,9 @@ export default function ImportPage() {
 
       // Basic validation of CSV content
       const csvContent = await csvFile.text();
-      if (
-        !csvContent.includes("opportunity_id") ||
-        !csvContent.includes("amount") ||
-        !csvContent.includes("seller") ||
-        !csvContent.includes("deal_date")
-      ) {
+      if (!validateCsvColumns(csvContent)) {
         throw new Error(
-          "CSV file must include headers: opportunity_id, amount, seller, deal_date"
+          "CSV file is missing required columns. Please check the file format."
         );
       }
 
