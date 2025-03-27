@@ -26,21 +26,9 @@ import {
 import { toast } from "sonner";
 import { Toaster } from "sonner";
 import Link from "next/link";
-
-// Example data for reference
-const EXAMPLE_CRM_A = [
-  { deal_id: "A1", total: 5000, rep_name: "Ana Pérez", sold_at: "2024-03-01" },
-  {
-    deal_id: "A2",
-    amount: 4500,
-    rep_name: "Juan Gómez",
-    created_on: "2024-03-02",
-  },
-];
-
-const EXAMPLE_CRM_B = `opportunity_id,amount,seller,deal_date
-B1,3000,Carlos García,2024/03/03
-B2,4500,Maria García,2024/03/04`;
+import { CRMA } from "@/data/CRMA";
+import { CRMB } from "@/data/CRMB";
+import { api } from "@/service/api";
 
 export default function ImportPage() {
   const [isLoadingCrmA, setIsLoadingCrmA] = useState(false);
@@ -177,25 +165,7 @@ export default function ImportPage() {
       }
 
       // Send the data to the API
-      const response = await fetch("http://localhost:3001/deals/import/crm-a", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response
-          .json()
-          .catch(() => ({ message: "Unknown error" }));
-        throw new Error(
-          errorData.message ||
-            `Failed to import CRM A data: ${response.status} ${response.statusText}`
-        );
-      }
-
-      const result = await response.json();
+      const result = await api.importJson(data);
       const count =
         typeof result === "number" ? result : result.count || "multiple";
       setSuccess(`Successfully imported ${count} deals from CRM A`);
@@ -244,25 +214,7 @@ export default function ImportPage() {
         );
       }
 
-      const formData = new FormData();
-      formData.append("file", csvFile);
-
-      const response = await fetch("http://localhost:3001/deals/import/crm-b", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response
-          .json()
-          .catch(() => ({ message: "Unknown error" }));
-        throw new Error(
-          errorData.message ||
-            `Failed to import CRM B data: ${response.status} ${response.statusText}`
-        );
-      }
-
-      const result = await response.json();
+      const result = await api.importCSV(csvFile);
       const count =
         typeof result === "number" ? result : result.count || "multiple";
       setSuccess(`Successfully imported ${count} deals from CRM B`);
@@ -288,7 +240,7 @@ export default function ImportPage() {
   };
 
   const fillExampleDataA = () => {
-    setJsonData(JSON.stringify(EXAMPLE_CRM_A, null, 2));
+    setJsonData(JSON.stringify(CRMA, null, 2));
     setJsonFile(null);
     if (document.getElementById("json-file") as HTMLInputElement) {
       (document.getElementById("json-file") as HTMLInputElement).value = "";
@@ -336,9 +288,7 @@ export default function ImportPage() {
 
               {showExampleA && (
                 <div className="bg-muted p-4 rounded-md overflow-x-auto">
-                  <pre className="text-xs">
-                    {JSON.stringify(EXAMPLE_CRM_A, null, 2)}
-                  </pre>
+                  <pre className="text-xs">{JSON.stringify(CRMA, null, 2)}</pre>
                   <Button
                     variant="secondary"
                     size="sm"
@@ -456,16 +406,14 @@ export default function ImportPage() {
 
               {showExampleB && (
                 <div className="bg-muted p-4 rounded-md overflow-x-auto">
-                  <pre className="text-xs whitespace-pre-wrap">
-                    {EXAMPLE_CRM_B}
-                  </pre>
+                  <pre className="text-xs whitespace-pre-wrap">{CRMB}</pre>
                   <Button
                     variant="secondary"
                     size="sm"
                     className="mt-2"
                     onClick={() => {
                       // Create and download example CSV file
-                      const blob = new Blob([EXAMPLE_CRM_B], {
+                      const blob = new Blob([CRMB], {
                         type: "text/csv",
                       });
                       const url = URL.createObjectURL(blob);

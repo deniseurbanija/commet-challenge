@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [deals, setDeals] = useState<Deal[]>([]);
   const [totalCommissions, setTotalCommissions] = useState(0);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +35,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-[#0f172a] bg-gradient-to-t from-gray-300 to-gray-50 p-6 md:p-10">
-      <div className="max-w-5xl mx-auto space-y-8">
+      <div className="container mx-auto py-10">
         <div className="flex flex-col items-center justify-center text-center space-y-2 mt-10">
           <h1 className="text-6xl font-medium tracking-widest">
             Commet - Gestión de Deals
