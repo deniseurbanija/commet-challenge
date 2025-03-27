@@ -34,4 +34,8 @@ export class DealsService {
   async createDeal(createDealDto: CreateDealDto) {
     return this.prisma.deal.create({ data: createDealDto });
   }
+
+  async resetDatabase() {
+    return await this.prisma.$transaction([this.prisma.deal.deleteMany()]);
+  }
 }

@@ -8,6 +8,7 @@ import {
   BadRequestException,
   InternalServerErrorException,
   HttpException,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DealsService } from './deals.service';
@@ -129,5 +130,12 @@ export class DealsController {
       console.error('Error creating deal:', error);
       throw new InternalServerErrorException('Failed to create deal');
     }
+  }
+
+  @Delete()
+
+  // En un script de reset o seed
+  async resetDatabase() {
+    return await this.dealsService.resetDatabase();
   }
 }
