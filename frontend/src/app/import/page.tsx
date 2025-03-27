@@ -29,7 +29,6 @@ import Link from "next/link";
 import { CRMA } from "@/data/CRMA";
 import { CRMB } from "@/data/CRMB";
 import { api } from "@/service/api";
-import { validateCrmAData, validateCsvColumns } from "./validate";
 
 export default function ImportPage() {
   const [isLoadingCrmA, setIsLoadingCrmA] = useState(false);
@@ -118,13 +117,6 @@ export default function ImportPage() {
         throw new Error("Data must be an array of deals");
       }
 
-      // Validate the data structure
-      if (!validateCrmAData(data)) {
-        throw new Error(
-          "Invalid data structure. Please check the example format."
-        );
-      }
-
       // Send the data to the API
       const result = await api.importJson(data);
       const count =
@@ -160,14 +152,6 @@ export default function ImportPage() {
 
       if (!csvFile) {
         throw new Error("Please select a CSV file to upload");
-      }
-
-      // Basic validation of CSV content
-      const csvContent = await csvFile.text();
-      if (!validateCsvColumns(csvContent)) {
-        throw new Error(
-          "CSV file is missing required columns. Please check the file format."
-        );
       }
 
       const result = await api.importCSV(csvFile);
