@@ -1,6 +1,7 @@
 "use client";
 import { CRMA } from "@/data/CRMA";
 import { CRMB } from "@/data/CRMB";
+import { api } from "@/service/api";
 import { Deal } from "@/types/deal";
 import { transformCRMData } from "@/utils/crmTransformer";
 import { useEffect, useState } from "react";
@@ -8,17 +9,31 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [deals, setDeals] = useState<Deal[]>([]);
   const [totalCommissions, setTotalCommissions] = useState(0);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const loadDeals = async () => {
+    try {
+      setLoading(true);
+      const [dealsData, total] = await Promise.all([
+        api.getDeals(),
+        api.getTotalCommissions(),
+      ]);
+      setDeals(dealsData);
+      setTotalCommissions(total);
+    } catch (err) {
+      setError("Error al cargar los deals");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const transformedDeals = transformCRMData(CRMA, CRMB);
-    setDeals(transformedDeals);
-
-    const total = transformedDeals.reduce(
-      (sum, deal) => sum + deal.commission,
-      0
-    );
-    setTotalCommissions(total);
+    loadDeals();
   }, []);
+
   return (
     <div className="min-h-screen text-[#0f172a] bg-gradient-to-t from-gray-300 to-gray-50 p-6 md:p-10">
       <div className="max-w-5xl mx-auto space-y-8">
