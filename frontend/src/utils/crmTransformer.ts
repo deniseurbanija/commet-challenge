@@ -2,7 +2,7 @@ import { Deal } from "@/types/deal";
 import Papa from "papaparse";
 
 // Función para transformar datos de CRM A (JSON)
-export function transformCRMAData(data: any[]): Deal[] {
+export function transformJSON(data: any[]): Deal[] {
   return data.map((deal) => ({
     id: deal.deal_id || deal.id,
     amount: deal.total || deal.amount,
@@ -30,7 +30,7 @@ export const transformCRMBData = (csvString: string): Deal[] => {
 
 // Función principal de transformación
 export function transformCRMData(crmAData: any[], crmBData: string): Deal[] {
-  const transformedCRMA = transformCRMAData(crmAData);
+  const transformedCRMA = transformJSON(crmAData);
   const transformedCRMB = transformCRMBData(crmBData);
 
   return [...transformedCRMA, ...transformedCRMB];

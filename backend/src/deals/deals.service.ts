@@ -11,13 +11,12 @@ export class DealsService {
   ) {}
 
   async importDealsFromCrmA(data: any[]) {
-    const transformedDeals = this.transformerService.transformCrmAData(data);
+    const transformedDeals = this.transformerService.transformJSON(data);
     return this.prisma.deal.createMany({ data: transformedDeals });
   }
 
   async importDealsFromCrmB(csvString: string) {
-    const transformedDeals =
-      this.transformerService.transformCrmBCsvData(csvString);
+    const transformedDeals = this.transformerService.transformCSV(csvString);
     return this.prisma.deal.createMany({ data: transformedDeals });
   }
 

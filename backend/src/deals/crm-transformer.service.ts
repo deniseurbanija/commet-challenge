@@ -18,7 +18,12 @@ interface RawDealCrmA {
 export class CrmTransformerService {
   private readonly COMMISSION_RATE = 0.1;
 
-  transformCrmAData(
+  /**
+   * Transforms JSON data from CRM A into standardized deal format
+   * @param data Raw deal data from CRM A
+   * @returns Transformed deals ready for database insertion
+   */
+  transformJSON(
     data: RawDealCrmA[],
   ): Omit<Deal, 'id' | 'createdAt' | 'updatedAt'>[] {
     return data.map((deal) => ({
@@ -31,8 +36,12 @@ export class CrmTransformerService {
     }));
   }
 
-  // Si necesitas método para CSV de CRM B
-  transformCrmBCsvData(
+  /**
+   * Transforms CSV data from CRM B into standardized deal format
+   * @param csvString CSV content containing deal data
+   * @returns Transformed deals ready for database insertion
+   */
+  transformCSV(
     csvString: string,
   ): Omit<Deal, 'id' | 'createdAt' | 'updatedAt'>[] {
     const records = parse(csvString, { columns: true });
