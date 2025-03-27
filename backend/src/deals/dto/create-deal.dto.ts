@@ -4,9 +4,6 @@ export class CreateDealDto {
   @IsString()
   id: string;
 
-  @IsString()
-  source: string;
-
   @IsNumber()
   amount: number;
 

@@ -29,7 +29,6 @@ export class CrmTransformerService {
   ): Omit<Deal, 'id' | 'createdAt' | 'updatedAt'>[] {
     return data.map((deal) => ({
       id: deal.deal_id || deal.opportunity_id || '',
-      source: 'CRM_A',
       amount: deal.total || deal.amount || 0,
       salesperson: deal.salesperson || deal.seller || deal.rep_name || '',
       date: new Date(deal.sold_at || deal.created_on || Date.now()),
@@ -48,7 +47,6 @@ export class CrmTransformerService {
     const records = parse(csvString, { columns: true });
     return records.map((deal) => ({
       id: deal.opportunity_id,
-      source: 'CRM_B',
       amount: parseFloat(deal.amount),
       salesperson: deal.seller,
       date: new Date(deal.deal_date.replace(/\//g, '-')),
