@@ -6,7 +6,7 @@ Es una aplicación web para la gestión de deals, que permite importar datos des
 
 ## Tecnologías Utilizadas
 
-- **Frontend**: React, TypeScript
+- **Frontend**: NextJs, TypeScript
 - **Backend**: NestJs, Prisma
 - **Base de Datos**: SQLite
 - **Librerías**: PapaParse (para CSV), Lucide React (iconos)
